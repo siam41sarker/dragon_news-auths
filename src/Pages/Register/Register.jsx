@@ -4,15 +4,15 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../AuthProvider/AuthProvider";
 const Register = () => {
     const { setUser, AuthRegister, updatedProfileInfo } = useContext(AuthContext);
-    const [error,setError] =  useState({});
+    const [error, setError] = useState({});
     const navTo = useNavigate();
     const handleSubmit = (e) => {
         e.preventDefault();
         const form = new FormData(e.target);
         const name = form.get("name");
-        if(name.length<5)
-                {
-                    setError({...error,name:"Name must have more than 5 characters!"});
+          if (name.length < 5) {
+                    setError({ ...error, name: "Name must have more than 5 characters!" });
+                    return;
                 }
         const photoURL = form.get("photo");
         const email = form.get("email");
@@ -21,10 +21,9 @@ const Register = () => {
         AuthRegister(email, password).then((result) => {
             const user = result.user;
             setUser(user);
-            updatedProfileInfo({displayName:name,photoURL:photoURL}).then(()=>
-                {
-                    navTo("/");
-                }).then(e=>console.log(e.code));
+            updatedProfileInfo({ displayName: name, photoURL: photoURL }).then(() => {
+                navTo("/");
+            }).then(e => console.log(e.code));
 
         }).catch(e => {
             const errorMessage = e.message;

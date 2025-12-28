@@ -6,23 +6,49 @@ import { FaInstagram } from "react-icons/fa6";
 import antique1 from '../../assets/imgi_3_treasure-1-Baqn0WcZ.jpg';
 import antique2 from '../../assets/imgi_4_manuscript-1--5fqYJPh.jpg';
 import antique3 from '../../assets/imgi_5_artifact-1-B9txUewH.jpg';
+import { useContext } from "react";
+import { AuthContext } from "../../AuthProvider/AuthProvider";
+import { Link } from "react-router-dom";
 const RightSideBar = () => {
+    const {setUser, signWithGoogle, signWithGiteHub} = useContext(AuthContext)
+    const handleGoogleSignIn = () =>
+            {
+                signWithGoogle().then((result)=>
+                    {
+                        setUser(result.user);
+                    }).catch(e=>console.log(e.code));
+            };
+    const handleGitHubBtn = () =>
+        {
+            signWithGiteHub().then(result=>
+                    {
+                        console.log(result)
+                        setUser(result.user);
+                    }
+            ).catch(e=>console.log(e.code));
+        }
     return (
         <div>
             <h2 className="text-[#403f3f] font-semibold text-xl">Login With</h2>
             <div className="join flex mt-5 join-vertical gap-2">
-                <button className="btn join-item bg-white border border-[#585757)] radius text-[#403F3F] capitalize"><FaGoogle />
+                <button onClick={handleGoogleSignIn} className="btn join-item bg-white border border-[#585757)] radius text-[#403F3F] capitalize"><FaGoogle />
                     login with google</button>
-                <button className="btn join-item bg-white border border-[#585757)]  text-[#403F3F] capitalize radius"><FaGithub />
+                <button onClick={handleGitHubBtn} className="btn join-item bg-white border border-[#585757)]  text-[#403F3F] capitalize radius"><FaGithub />
                     login with gitHub
                 </button>
             </div>
             <div>
                 <h2 className="text-[#403f3f] font-semibold text-xl mt-[30px]">Find Us On</h2>
                 <div className="join flex   join-vertical mt-5">
-                    <button className="btn flex justify-start join-item bg-white"><CiFacebook /> Facebook</button>
-                    <button className="btn flex justify-start join-item bg-white"><CiTwitter /> Twitter</button>
-                    <button className="btn flex justify-start join-item bg-white"><FaInstagram />Instagram</button>
+                    <button>
+                        <a href="https://www.facebook.com/" target="_blank" className="btn flex justify-start join-item bg-white"><CiFacebook /> Facebook</a>
+                    </button>
+                    <button>
+                        <a href="https://www.twitter.com/" target="_blank" className="btn flex justify-start join-item bg-white"><CiTwitter /> Twitter</a>
+                    </button>
+                    <button>
+                        <a href="https://www.facebook.com/" target="_blank" className="btn flex justify-start join-item bg-white"><FaInstagram />Instagram</a>
+                    </button>
                 </div>
             </div>
             <div className="w-full h-auto bg-[#f3f3f3] mt-[30px]">
@@ -45,7 +71,7 @@ const RightSideBar = () => {
             <div className="w-full h-[580px] mt-[30px] mb-5 bg-[url('../src/assets/bg.png')] bg-cover bg-center flex flex-col gap-8 items-center justify-center">
                 <h1 className="text-white text-5xl font-extrabold text-center">Create an Amazing Newspaper</h1>
                 <p className="text-white text-2xl font-normal text-center px-8">Discover thousands of options, easy to customize layouts, one-click to import demoand much more.</p>
-                <button className="bg-[#d72050] flex justify-center items-center w-44 h-16 text-white font-semibold text-2xl capitalize">learn more</button>
+                <Link to="/auth/login" className="bg-[#d72050] flex justify-center items-center w-44 h-16 text-white font-semibold text-2xl capitalize">learn more</Link>
             </div>
         </div>
     );
